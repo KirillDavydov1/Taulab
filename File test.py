@@ -1,5 +1,5 @@
-import matplotlib.pyplot as pyplot
-import control.matlab as matlab
+import matplotlib.pyplot as mplplt
+import control.matlab as mlab
 import numpy
 import math
 import colorama as color
@@ -7,6 +7,9 @@ import colorama as color
 def choice():
     inertialessUnitName = 'Безынерционное звено'
     aperiodUnitName = 'Апериодическое звено'
+    integralUnitName = 'Интегральное звено'
+    idealdiffUnitName = 'Идеальное дифференцирующее звено'
+    realdiffUnitName = 'Реальное дифференцирующее звено'
     
 
     needNewChoice = True
@@ -23,12 +26,17 @@ def choice():
                 name = 'Безынерционное звено'
             elif userInput == 2:
                 name = 'Апериодическое звено'
+            elif userInput == 3:
+                name = 'Интегральное звено'
+            elif userInput == 4:
+                name = 'Идеальное дифференцирующее звено'
+            elif userInput == 5:
+                name = 'Реальное дифференцирующее звено'    
             else:
                 print(color.Fore.RED + '\nНедоступное значение')
                 needNewChoice = True
-
         else:
-            print(color.Fore.RED + '\nПожалуйста, введите числовое значение.\n')
+            print(color.Fore.RED + '\nПожалуйста, введите корректное числовое значение.\n')
             needNewChoice = True
     return name
 
@@ -43,24 +51,24 @@ def getUnit(name):
             k = int(k)
             T = int(T)
             if name == 'Безынерционное звено':
-                unit = matlab.tf([k], [1])
+                unit = mlab.tf([k], [1])
             elif name == 'Апериодическое звено':
-                unit = matlab.tf([k], [T, 1])
+                unit = mlab.tf([k], [T, 1])
         else:
             print(color.Fore.RED + '\nПожалуйста, введите числовое значение.\n')
             needNewChoice = True
     return unit
 
 def graph(num, title, y, x):
-    pyplot.subplot(2, 1, num)
-    pyplot.grid(True)
+    mplplt.subplot(2, 1, num)
+    mplplt.grid(True)
     if title == 'Переходная характеристика':
-        pyplot.plot(x, y, 'purple')
+        mplplt.plot(x, y, 'purple')
     elif title == 'Импульсная характеристика':
-        pyplot.plot(x, y, 'green')
-    pyplot.title(title)
-    pyplot.ylabel('Амплитуда')
-    pyplot.xlabel('Время (c)')
+        mplplt.plot(x, y, 'green')
+    mplplt.title(title)
+    mplplt.ylabel('Амплитуда')
+    mplplt.xlabel('Время (c)')
 
 unitName = choice()
 unit = getUnit(unitName)
@@ -68,8 +76,8 @@ unit = getUnit(unitName)
 timeLine = []
 for i in range(0, 10000):
     timeLine.append(i/1000)
-[y, x] = matlab.step(unit, timeLine)
+[y, x] = mlab.step(unit, timeLine)
 graph(1, 'Переходная характеристика', y, x)
-[y, x] = matlab.impulse(unit, timeLine)
+[y, x] = mlab.impulse(unit, timeLine)
 graph(2, 'Импульсная характеристика', y, x)
-pyplot.show()
+mplplt.show()
