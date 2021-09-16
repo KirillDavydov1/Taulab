@@ -65,11 +65,11 @@ def getUnit(name):
             elif name == 'Апериодическое звено':
                 unit = mlab.tf([k2], [T2, 1])
             elif name == 'Интегральное звено':
-                unit = mlab.
+                unit = mlab.tf([k3], [])
             elif name == 'Идеальное дифференцирующее звено':
-                unit = mlab.
+                unit = mlab.tf([k4], [])
             elif name == 'Реальное дифференцирующее звено':
-                unit = mlab.    
+                unit = mlab.tf([k5], [])    
         else:
             print(color.Fore.RED + '\nПожалуйста, введите числовое значение.\n')
             needNewChoice = True
